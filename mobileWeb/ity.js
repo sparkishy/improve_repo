@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import $ from "jquery";
 var Waypoint = require('react-waypoint');
 import ImageGallery from 'react-image-gallery';
+import html2canvas from 'html2canvas';
 
 
 require('!style!css!./normalize.css');
@@ -15,6 +16,19 @@ import './menu.less';
 import './example.less';
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
+
+
+window.onload = function() {
+	html2canvas(document.getElementById("imagewrap"), {
+    onrendered: function(canvas) {
+      canvas.className = "html2canvas";
+      document.getElementById("canvasWrapper").appendChild(canvas);
+      var image = canvas.toDataURL("image/png");
+      document.getElementById("downloadLink").href = image;
+    },
+    useCORS: true
+  });
+}
 
 class Slider extends React.Component {
 
@@ -365,6 +379,18 @@ var App = React.createClass({
                 <MenuItem hash="third-page">Third Page</MenuItem>
             </Menu>
             
+			 <div className="outer" style={{position: "relative"}}>
+			 	 <div id="imagewrap" className="wrap">
+			    <img src="https://i.imgur.com/EFM76Qe.jpg?1" id="img_prev"/>
+			    <h3 className="desc" style={{position: "absolute", top: "0"}}>Something <br /><span>Inspirational</span></h3>
+			    <span id="wow">WOW!</span>
+			  </div>
+			</div>
+			<div id="canvasWrapper" className="outer">
+			  <p>Canvas</p>
+			  <p>Or, <a id="downloadLink" download="cat.png">Click Here to Download!</a></p>
+			</div>
+
             <Slider />
 			<InfiniteScrollExample />
         </div>;
