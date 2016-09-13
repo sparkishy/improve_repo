@@ -7,6 +7,7 @@ var Waypoint = require('react-waypoint');
 import ImageGallery from 'react-image-gallery';
 import html2canvas from 'html2canvas';
 
+var Masonry = require('react-masonry-component');
 
 require('!style!css!./normalize.css');
 require('!style!css!./slider.css');
@@ -206,40 +207,28 @@ var InfiniteScrollExample = React.createClass({
     this.setState({ isLoading: true });
     var next_page = 1;
     // fake an async. ajax call with setTimeout
-    window.setTimeout(function() {
+    
+      var objj = this;
       // add data
       var currentItems = this.state.items;
       
-  	  $.ajax({
-	    type: 'post',
-	    dataType: 'json',
-	    url: 'http://itymall.com/index.php/mobile/productShow',
-	    data: {page:next_page},
-	    success: function (data) {
-	        // 목록을 생성하는 스크립트
-	        if (data != 'empty') {
-		    
-	        $.each(data, function(key, val) {
+  	  $.when($.ajax({type: 'post', dataType: 'json', url: 'http://itymall.com/index.php/mobile/productShow', data: {page:next_page}})).then(function(data){
+	  	
+	  	$.each(data, function(key, val) {
 		        
 		        var str = val.mainImage;
 	            currentItems.push(str);
 	            currentIndex++;
-	        });	         
-	    }
-	    },
-	    error: function (request,status,error) {
-		    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		    console.error(error);
-	    }
-	});
-	
-	  this.setState({
+	        });	
+	  	
+	  	
+	  	objj.setState({
         items: currentItems,
         isLoading: false,
       });
-      
-    }.bind(this), secondsToWait * 1000);
-    
+
+  	  });
+
   },
 
   /**
@@ -302,6 +291,9 @@ var InfiniteScrollExample = React.createClass({
    * @return {Object}
    */
   render: function() {
+	var masonryOptions = {
+    transitionDuration: 0
+	};
     return (
       <div className="infinite-scroll-example">
         <p className="infinite-scroll-example__count">
@@ -309,7 +301,15 @@ var InfiniteScrollExample = React.createClass({
         </p>
         
         <div className="infinite-scroll-example__scrollable-parent">
+          <Masonry
+                className={'my-gallery-class'} // default ''
+                elementType={'ul'} // default 'div'
+                options={masonryOptions} // default {}
+                disableImagesLoaded={false} // default false
+                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+           >
           {this._renderItems()}
+           </Masonry>
           {this._renderLoadingMessage()}
           {this._renderWaypoint()}
         </div>
@@ -378,20 +378,10 @@ var App = React.createClass({
                 <MenuItem hash="second-page">Second Page</MenuItem>
                 <MenuItem hash="third-page">Third Page</MenuItem>
             </Menu>
-            
-			 <div className="outer" style={{position: "relative"}}>
-			 	 <div id="imagewrap" className="wrap">
-			    <img src="https://i.imgur.com/EFM76Qe.jpg?1" id="img_prev"/>
-			    <h3 className="desc" style={{position: "absolute", top: "0"}}>Something <br /><span>Inspirational</span></h3>
-			    <span id="wow">WOW!</span>
-			  </div>
-			</div>
-			<div id="canvasWrapper" className="outer">
-			  <p>Canvas</p>
-			  <p>Or, <a id="downloadLink" download="cat.png">Click Here to Download!</a></p>
-			</div>
-
             <Slider />
+            <a href="http://itymall.com/index.php/table/tableList" style={{marginTop: '400px'}}> Go Product </a>
+            
+            
 			<InfiniteScrollExample />
         </div>;
     }
