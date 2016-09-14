@@ -18,7 +18,6 @@ import './example.less';
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
 
-
 window.onload = function() {
 	html2canvas(document.getElementById("imagewrap"), {
     onrendered: function(canvas) {
