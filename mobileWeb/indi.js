@@ -4,18 +4,33 @@ import ReactDOM from 'react-dom';
 
 
 var Content = React.createClass({
-    showLeft: function() {
-        
+	getInitialState: function () {
+		return {
+			one: "case",
+			two: 345
+		};	
+	},
+	componentWillMount: function() {
+		//this.setState({one: "changed", two: 12342});
+	},
+    showState: function() {
+        alert("One: " + this.state.one + " Two: " + this.state.two);
     },
 
-    showRight: function() {
-        
+    changeState: function() {
+        this.setState({one: "changed", two: 12342});
     },
 
     render: function() {
         return <div>
         	<div id="header" style={{fontSize: '30px', paddingTop: '8px'}}>I TOLD YOU MALL</div>
-            
+        	<button onClick={this.showState}>Show Current State</button>
+            <button onClick={this.changeState}>Change State</button>
+            <article class="thumb">
+				<a href="images/fulls/01.jpg" class="image"><img src="images/thumbs/01.jpg" alt="" /></a>
+				<h2>Magna feugiat lorem</h2>
+				<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
+			</article>
         </div>;
     }
 });

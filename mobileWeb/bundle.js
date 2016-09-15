@@ -59,9 +59,22 @@
 	var Content = _react2.default.createClass({
 	    displayName: 'Content',
 
-	    showLeft: function showLeft() {},
+	    getInitialState: function getInitialState() {
+	        return {
+	            one: "case",
+	            two: 345
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        //this.setState({one: "changed", two: 12342});
+	    },
+	    showState: function showState() {
+	        alert("One: " + this.state.one + " Two: " + this.state.two);
+	    },
 
-	    showRight: function showRight() {},
+	    changeState: function changeState() {
+	        this.setState({ one: "changed", two: 12342 });
+	    },
 
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -71,6 +84,35 @@
 	                'div',
 	                { id: 'header', style: { fontSize: '30px', paddingTop: '8px' } },
 	                'I TOLD YOU MALL'
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.showState },
+	                'Show Current State'
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.changeState },
+	                'Change State'
+	            ),
+	            _react2.default.createElement(
+	                'article',
+	                { 'class': 'thumb' },
+	                _react2.default.createElement(
+	                    'a',
+	                    { href: 'images/fulls/01.jpg', 'class': 'image' },
+	                    _react2.default.createElement('img', { src: 'images/thumbs/01.jpg', alt: '' })
+	                ),
+	                _react2.default.createElement(
+	                    'h2',
+	                    null,
+	                    'Magna feugiat lorem'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.'
+	                )
 	            )
 	        );
 	    }
