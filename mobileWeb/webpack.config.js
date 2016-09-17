@@ -1,7 +1,7 @@
 // webpack.config.js
 
 module.exports = {
-  entry: './indi.js',
+  entry: './todoApp/index.js',
   output: {
     path: __dirname,
     filename: 'bundle.js'
